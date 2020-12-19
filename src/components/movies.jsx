@@ -16,12 +16,15 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    const genres = [{name: 'All Genres'}, ...getGenres()];
+    const genres = [{_id: '', name: 'All Genres'}, ...getGenres()];
 
     this.setState({movies: getMovies(), genres: genres});
   }
 
-  handleDelete = movie => {};
+  handleDelete = movie => {
+    const movies = this.state.movies.filter(m => m._id !== movie._id);
+    this.setState({movies});
+  };
 
   handleLike = movie => {
     const movies = [...this.state.movies];
@@ -39,16 +42,15 @@ class Movies extends Component {
     this.setState({selectedGenre: genre, currentPage: 1});
   };
 
-  handleDelete = movie => {
-    const movies = this.state.movies.filter(m => m._id !== movie._id);
-    this.setState({movies});
-  };
-
   showMsg() {
     if (this.state.getMovies().length === 0) return <p>There are no tags!</p>;
 
     return <p> These is {this.state.getMovies().length} Movies in Database</p>;
   }
+
+  handleSort = path => {
+    console.log(path);
+  };
 
   render() {
     const {length: count} = this.state.movies;
@@ -84,6 +86,7 @@ class Movies extends Component {
             movies={movies}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
+            onSort={this.handleSort}
           />
 
           <Pagination
